@@ -23,7 +23,7 @@ function DetailCard({
       <motion.div
         whileHover={{ y: -10 }}
         transition={{ type: "spring", stiffness: 260, damping: 20 }}
-        className="flex h-full flex-col items-center gap-3 rounded-lg border border-gold/30 bg-ivory/80 px-6 py-10 text-center shadow-[0_8px_30px_rgba(14,61,47,0.08)] backdrop-blur-sm"
+        className="flex h-full flex-col items-center gap-3 rounded-lg border border-gold/30 bg-ivory/80 px-4 py-8 text-center shadow-[0_8px_30px_rgba(14,61,47,0.08)] backdrop-blur-sm sm:px-6 sm:py-10"
       >
         <div className="flex h-12 w-12 items-center justify-center rounded-full border border-gold/50 text-gold">
           {icon}
@@ -31,7 +31,7 @@ function DetailCard({
         <h3 className="font-cinzel text-sm tracking-[0.25em] text-emerald">
           {title}
         </h3>
-        <div className="mt-1 flex flex-col gap-1 font-cormorant text-lg text-ink/75">
+        <div className="mt-1 flex flex-col gap-1 font-cormorant text-base text-ink/75 sm:text-lg">
           {lines.map((line) => (
             <span key={line}>{line}</span>
           ))}

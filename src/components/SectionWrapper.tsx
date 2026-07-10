@@ -25,7 +25,7 @@ export function SectionWrapper({
     <section
       id={id}
       className={clsx(
-        "relative overflow-hidden px-6 py-24 sm:py-32",
+        "relative overflow-hidden px-4 py-20 sm:px-6 sm:py-24 md:py-32",
         toneClasses[tone],
         className,
       )}

@@ -18,7 +18,7 @@ export function Welcome() {
         </ScrollReveal>
 
         <ScrollReveal delay={0.15} duration={1.1}>
-          <p className="max-w-2xl font-great-vibes text-4xl leading-relaxed text-emerald sm:text-5xl">
+          <p className="max-w-2xl font-great-vibes text-3xl leading-relaxed text-emerald sm:text-4xl md:text-5xl">
             &ldquo;{weddingConfig.welcomeQuote}&rdquo;
           </p>
         </ScrollReveal>

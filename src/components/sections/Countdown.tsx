@@ -22,19 +22,19 @@ function getTimeLeft() {
 
 function Unit({ value, label }: { value: number; label: string }) {
   return (
-    <div className="flex flex-col items-center gap-2">
-      <div className="relative flex h-20 w-20 items-center justify-center rounded-md border border-gold/40 bg-white/5 sm:h-24 sm:w-24">
+    <div className="flex flex-col items-center gap-1 sm:gap-2">
+      <div className="relative flex h-14 w-14 items-center justify-center rounded-md border border-gold/40 bg-white/5 sm:h-20 sm:w-20 md:h-24 md:w-24">
         <motion.span
           key={value}
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="font-cinzel text-3xl text-champagne sm:text-4xl"
+          className="font-cinzel text-xl text-champagne sm:text-3xl md:text-4xl"
         >
           {String(value).padStart(2, "0")}
         </motion.span>
       </div>
-      <span className="font-cormorant text-xs tracking-[0.3em] text-cream/70">
+      <span className="font-cormorant text-[10px] tracking-[0.15em] text-cream/70 sm:text-xs sm:tracking-[0.3em]">
         {label.toUpperCase()}
       </span>
     </div>
