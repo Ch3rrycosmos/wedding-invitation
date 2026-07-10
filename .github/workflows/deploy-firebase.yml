@@ -24,6 +24,31 @@ jobs:
           ${{ vars.ENVFILE }}
           EOF
 
+      - name: Add gallery images from repo variables
+        run: |
+          IMAGES=""
+          for i in $(seq 1 10); do
+            var_name="IMAGE$i"
+            val="${!var_name}"
+            if [ -n "$val" ]; then
+              IMAGES="${IMAGES:+$IMAGES,}$val"
+            fi
+          done
+          if [ -n "$IMAGES" ]; then
+            echo "NEXT_PUBLIC_GALLERY_IMAGES=$IMAGES" >> .env.production
+          fi
+        env:
+          IMAGE1: ${{ vars.IMAGE1 }}
+          IMAGE2: ${{ vars.IMAGE2 }}
+          IMAGE3: ${{ vars.IMAGE3 }}
+          IMAGE4: ${{ vars.IMAGE4 }}
+          IMAGE5: ${{ vars.IMAGE5 }}
+          IMAGE6: ${{ vars.IMAGE6 }}
+          IMAGE7: ${{ vars.IMAGE7 }}
+          IMAGE8: ${{ vars.IMAGE8 }}
+          IMAGE9: ${{ vars.IMAGE9 }}
+          IMAGE10: ${{ vars.IMAGE10 }}
+
       - name: Build
         run: npm run build
 

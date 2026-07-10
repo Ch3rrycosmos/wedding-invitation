@@ -16,7 +16,13 @@ const RISE_MS = 1000;
 const HOLD_MS = 600;
 const ZOOM_MS = 900;
 
-export function Envelope({ onEntered }: { onEntered: () => void }) {
+export function Envelope({
+  onEntered,
+  onOpen,
+}: {
+  onEntered: () => void;
+  onOpen?: () => void;
+}) {
   const [phase, setPhase] = useState<Phase>("closed");
   const reducedMotion = useReducedMotion();
   const timeouts = useRef<number[]>([]);
@@ -46,6 +52,7 @@ export function Envelope({ onEntered }: { onEntered: () => void }) {
 
   function handleOpen() {
     if (phase !== "closed") return;
+    onOpen?.();
     if (reducedMotion) {
       setPhase("zoom");
       timeouts.current.push(window.setTimeout(() => setPhase("entered"), 500));
