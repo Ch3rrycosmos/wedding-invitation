@@ -42,17 +42,15 @@ function DetailCard({
 }
 
 export function WeddingDetails() {
-  const muhoortham = weddingConfig.details[0];
-
   return (
     <SectionWrapper id="details" tone="cream">
       <div className="text-center">
         <ScrollReveal className="font-cinzel text-xs tracking-[0.4em] text-gold-deep">
-          WEDDING DETAILS
+          {weddingConfig.detailsSectionLabel}
         </ScrollReveal>
         <ScrollReveal delay={0.15}>
           <h2 className="mt-3 font-playfair text-4xl text-emerald sm:text-5xl">
-            When &amp; Where
+            {weddingConfig.detailsSectionTitle}
           </h2>
         </ScrollReveal>
         <ScrollReveal delay={0.3}>
@@ -63,20 +61,20 @@ export function WeddingDetails() {
       <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-3">
         <DetailCard
           icon={<Calendar size={20} />}
-          title="Date"
-          lines={[muhoortham.date, weddingConfig.weddingDayDisplay]}
+          title={weddingConfig.detailsDateLabel}
+          lines={[weddingConfig.weddingDateDisplay, weddingConfig.weddingDayDisplay]}
           delay={0}
         />
         <DetailCard
           icon={<Clock size={20} />}
-          title={muhoortham.label}
-          lines={[muhoortham.time]}
+          title={weddingConfig.eventLabel}
+          lines={[weddingConfig.weddingTimeDisplay]}
           delay={0.1}
         />
         <DetailCard
           icon={<MapPin size={20} />}
-          title="Venue"
-          lines={[muhoortham.venue, muhoortham.address]}
+          title={weddingConfig.detailsVenueLabel}
+          lines={[weddingConfig.venue.name, weddingConfig.venue.address]}
           delay={0.2}
         />
       </div>

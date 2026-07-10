@@ -49,15 +49,12 @@ const dmSerif = DM_Serif_Display({
   style: ["normal", "italic"],
 });
 
-const title = `${weddingConfig.bride} & ${weddingConfig.groom} — With Love, We Invite You`;
-const description = `Join us as we begin our forever. An invitation to the wedding of ${weddingConfig.bride} & ${weddingConfig.groom}, ${weddingConfig.weddingDateDisplay}.`;
-
 export const metadata: Metadata = {
-  title,
-  description,
+  title: weddingConfig.siteTitle,
+  description: weddingConfig.siteDescription,
   openGraph: {
-    title,
-    description,
+    title: weddingConfig.siteTitle,
+    description: weddingConfig.siteDescription,
     type: "website",
   },
 };

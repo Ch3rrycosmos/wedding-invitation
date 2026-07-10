@@ -9,13 +9,11 @@ import { WaxSeal } from "@/components/decorative/WaxSeal";
 import { useReducedMotion } from "@/lib/hooks/useReducedMotion";
 import { weddingConfig } from "@/lib/weddingConfig";
 
-type Phase = "closed" | "flap" | "card" | "zoom" | "entered";
+type Phase = "closed" | "flap" | "rise" | "hold" | "zoom" | "entered";
 
-// Phase timings are driven by fixed timers (not animation-completion events),
-// since chaining state off onAnimationComplete across 3D-transformed elements
-// is unreliable on some mobile WebKit builds and can leave the envelope stuck.
-const FLAP_MS = 1000;
-const CARD_MS = 1100 + 550;
+const FLAP_MS = 700;
+const RISE_MS = 1000;
+const HOLD_MS = 600;
 const ZOOM_MS = 900;
 
 export function Envelope({ onEntered }: { onEntered: () => void }) {
@@ -46,11 +44,21 @@ export function Envelope({ onEntered }: { onEntered: () => void }) {
     }
     setPhase("flap");
     timeouts.current.push(
-      window.setTimeout(() => setPhase("card"), FLAP_MS),
-      window.setTimeout(() => setPhase("zoom"), FLAP_MS + CARD_MS),
-      window.setTimeout(() => setPhase("entered"), FLAP_MS + CARD_MS + ZOOM_MS),
+      window.setTimeout(() => setPhase("rise"), FLAP_MS),
+      window.setTimeout(() => setPhase("hold"), FLAP_MS + RISE_MS),
+      window.setTimeout(
+        () => setPhase("zoom"),
+        FLAP_MS + RISE_MS + HOLD_MS,
+      ),
+      window.setTimeout(
+        () => setPhase("entered"),
+        FLAP_MS + RISE_MS + HOLD_MS + ZOOM_MS,
+      ),
     );
   }
+
+  const isOpen = phase !== "closed" && phase !== "entered";
+  const isRisen = phase === "rise" || phase === "hold" || phase === "zoom";
 
   return (
     <AnimatePresence
@@ -86,6 +94,7 @@ export function Envelope({ onEntered }: { onEntered: () => void }) {
               size={64}
             />
 
+            {/* Tagline */}
             <motion.p
               initial={{ opacity: 0, y: -12 }}
               animate={{ opacity: phase === "closed" ? 1 : 0, y: 0 }}
@@ -95,101 +104,145 @@ export function Envelope({ onEntered }: { onEntered: () => void }) {
               {weddingConfig.invitationLine}
             </motion.p>
 
-            {/* Envelope scene */}
-            <div
-              className="relative w-full max-w-[380px]"
-              style={{ perspective: 1600 }}
-            >
-              <div className="relative aspect-[3/2] w-full">
-                {/* card sliding out */}
+            {/* ===== ENVELOPE SCENE ===== */}
+            <div className="relative w-full max-w-[380px]">
+              <div
+                className="relative mx-auto w-full overflow-visible"
+                style={{ aspectRatio: "3 / 2" }}
+              >
+                {/* Layer 1 — Back panel (slides down) */}
                 <motion.div
-                  className="absolute left-1/2 top-1/2 z-40 w-[86%] -translate-x-1/2 -translate-y-1/2 rounded-sm border border-gold/40 bg-ivory shadow-[0_10px_50px_rgba(0,0,0,0.45)]"
-                  style={{ aspectRatio: "3 / 4" }}
-                  initial={{ y: 20, opacity: 0, scale: 0.92 }}
-                  animate={
-                    phase === "card" || phase === "zoom"
-                      ? { y: "-38%", opacity: 1, scale: 1.05 }
-                      : phase === "flap"
-                        ? { y: 20, opacity: 1, scale: 0.92 }
-                        : { y: 20, opacity: 0, scale: 0.92 }
-                  }
-                  transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+                  className="absolute inset-0 z-0 rounded-sm border border-gold/50 bg-gradient-to-b from-cream to-beige shadow-2xl"
+                  initial={{ y: 0 }}
+                  animate={isOpen ? { y: "150%" } : { y: 0 }}
+                  transition={{
+                    duration: 0.9,
+                    delay: 0.05,
+                    ease: [0.65, 0, 0.35, 1],
+                  }}
                 >
-                  <div className="flex h-full flex-col items-center justify-center gap-3 p-6 text-center">
-                    <span className="font-cinzel text-[10px] tracking-[0.35em] text-gold-deep">
-                      INVITATION
-                    </span>
-                    <span className="font-great-vibes text-3xl text-emerald sm:text-4xl">
-                      {weddingConfig.bride} &amp; {weddingConfig.groom}
-                    </span>
-                    <span className="h-px w-10 bg-gold" />
-                    <span className="font-cormorant text-xs tracking-[0.15em] text-ink/70">
-                      {weddingConfig.weddingDateDisplay}
-                    </span>
-                  </div>
+                  <div className="absolute inset-0 rounded-sm paper-texture" />
                 </motion.div>
 
-                {/* envelope back panel */}
-                <div className="absolute inset-0 rounded-sm border border-gold/50 bg-gradient-to-b from-cream to-beige shadow-2xl">
-                  <div className="absolute inset-0 paper-texture rounded-sm" />
-                </div>
+                {/* Layer 2 — Invitation card */}
+                {/* Card is always at opacity:1. The envelope body
+                    (z-20) physically covers it when closed. When the
+                    envelope slides down, the card is naturally revealed
+                    from behind — no opacity fade needed. */}
+                <motion.div
+                  className="absolute inset-0 z-10 flex items-center justify-center"
+                  animate={
+                    isRisen
+                      ? { clipPath: "polygon(0% -50%, 100% -50%, 100% 150%, 0% 150%)" }
+                      : { clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)" }
+                  }
+                  transition={{
+                    duration: 1,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                >
+                  <motion.div
+                    className="w-[86%] rounded-sm border border-gold/40 bg-ivory shadow-[0_10px_50px_rgba(0,0,0,0.45)]"
+                    style={{ aspectRatio: "3 / 4" }}
+                    initial={{ y: 40, scale: 0.94 }}
+                    animate={
+                      isRisen
+                        ? { y: 0, scale: 1 }
+                        : { y: 40, scale: 0.94 }
+                    }
+                    transition={{
+                      duration: 1,
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
+                  >
+                    <div className="flex h-full flex-col items-center justify-center gap-3 p-6 text-center">
+                      <span className="font-cinzel text-[10px] tracking-[0.35em] text-gold-deep">
+                        {weddingConfig.cardLabel}
+                      </span>
+                      <span className="font-great-vibes text-3xl text-emerald sm:text-4xl">
+                        {weddingConfig.bride} &amp; {weddingConfig.groom}
+                      </span>
+                      <span className="h-px w-10 bg-gold" />
+                      <span className="font-cormorant text-xs tracking-[0.15em] text-ink/70">
+                        {weddingConfig.weddingDateDisplay}
+                      </span>
+                    </div>
+                  </motion.div>
+                </motion.div>
 
-                {/* envelope front pocket (bottom triangle) */}
+                {/* Layer 3 — Decorative bottom pocket strip */}
                 <div
-                  className="absolute inset-0 z-20 rounded-sm border border-gold/50 bg-gradient-to-b from-beige to-champagne/70"
+                  className="absolute bottom-0 left-0 right-0 z-5 bg-gradient-to-t from-champagne/60 to-transparent"
                   style={{
-                    clipPath:
-                      "polygon(0% 100%, 50% 40%, 100% 100%, 100% 100%, 0% 100%)",
+                    height: "20%",
+                    clipPath: "polygon(0% 100%, 50% 40%, 100% 100%)",
                   }}
                 />
 
-                {/* flap */}
+                {/* Layer 4 — Envelope body (FULL rectangle, fully opaque) */}
+                {/* Slides 150% to fully clear the card (card is 1.72x container height) */}
                 <motion.div
-                  className="absolute inset-x-0 top-0 z-30 h-1/2 origin-top border border-gold/50 bg-gradient-to-b from-champagne to-beige"
+                  className="absolute inset-0 z-20 rounded-sm border border-gold/50 bg-gradient-to-b from-beige to-champagne"
+                  initial={{ y: 0 }}
+                  animate={isOpen ? { y: "150%" } : { y: 0 }}
+                  transition={{
+                    duration: 0.9,
+                    delay: 0.05,
+                    ease: [0.65, 0, 0.35, 1],
+                  }}
+                >
+                  <div className="absolute inset-0 rounded-sm paper-texture" />
+                </motion.div>
+
+                {/* Layer 5 — Flap */}
+                <motion.div
+                  className="absolute inset-x-0 top-0 z-30 h-1/2 origin-top"
                   style={{
                     clipPath: "polygon(0% 0%, 100% 0%, 50% 100%)",
                     transformStyle: "preserve-3d",
                     backfaceVisibility: "hidden",
                   }}
                   initial={{ rotateX: 0 }}
-                  animate={{
-                    rotateX:
-                      phase === "flap" ||
-                      phase === "card" ||
-                      phase === "zoom"
-                        ? -178
-                        : 0,
+                  animate={isOpen ? { rotateX: -180 } : { rotateX: 0 }}
+                  transition={{
+                    duration: 0.7,
+                    ease: [0.65, 0, 0.35, 1],
                   }}
-                  transition={{ duration: 1, ease: [0.65, 0, 0.35, 1] }}
                 >
-                  <div className="absolute inset-0 paper-texture" />
+                  <div className="absolute inset-0 border border-gold/50 bg-gradient-to-b from-champagne to-beige">
+                    <div className="absolute inset-0 paper-texture" />
+                  </div>
                 </motion.div>
 
-                {/* wax seal on flap seam */}
+                {/* Layer 6 — Wax seal */}
                 <motion.div
                   className="absolute left-1/2 top-[46%] z-40 -translate-x-1/2 -translate-y-1/2"
                   animate={{
                     opacity: phase === "closed" ? 1 : 0,
-                    scale: phase === "closed" ? 1 : 0.6,
+                    scale: phase === "closed" ? 1 : 0.5,
                   }}
-                  transition={{ duration: 0.5 }}
+                  transition={{ duration: 0.35 }}
                 >
-                  <WaxSeal initial={weddingConfig.coupleMonogram[0]} size={64} />
+                  <WaxSeal
+                    initial={weddingConfig.coupleMonogram[0]}
+                    size={64}
+                  />
                 </motion.div>
               </div>
             </div>
 
+            {/* ===== TAP TO OPEN ===== */}
             <motion.button
               type="button"
               onClick={handleOpen}
               animate={{ opacity: phase === "closed" ? 1 : 0 }}
               transition={{ duration: 0.5 }}
-              className="group relative mt-12 inline-flex items-center gap-3 rounded-full border border-gold/60 px-8 py-3 font-cinzel text-xs tracking-[0.3em] text-champagne transition-colors hover:bg-gold/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold disabled:pointer-events-none"
+              className="relative z-50 mt-12 inline-flex cursor-pointer items-center gap-3 rounded-full border border-gold/60 px-8 py-3 font-cinzel text-xs tracking-[0.3em] text-champagne transition-colors hover:bg-gold/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold disabled:pointer-events-none"
               disabled={phase !== "closed"}
               aria-label="Tap to open the invitation"
             >
               <span className="animate-shimmer bg-gradient-to-r from-champagne via-gold-light to-champagne bg-[length:200%_auto] bg-clip-text text-transparent">
-                TAP TO OPEN
+                {weddingConfig.tapToOpenText}
               </span>
             </motion.button>
           </div>

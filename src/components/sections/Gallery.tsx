@@ -15,15 +15,17 @@ export function Gallery() {
   const [active, setActive] = useState<number | null>(null);
   const items = weddingConfig.gallery;
 
+  if (items.length === 0) return null;
+
   return (
     <SectionWrapper id="gallery" tone="ivory">
       <div className="text-center">
         <ScrollReveal className="font-cinzel text-xs tracking-[0.4em] text-gold-deep">
-          MOMENTS
+          {weddingConfig.gallerySectionLabel}
         </ScrollReveal>
         <ScrollReveal delay={0.15}>
           <h2 className="mt-3 font-playfair text-4xl text-emerald sm:text-5xl">
-            Our Gallery
+            {weddingConfig.gallerySectionTitle}
           </h2>
         </ScrollReveal>
         <ScrollReveal delay={0.3}>

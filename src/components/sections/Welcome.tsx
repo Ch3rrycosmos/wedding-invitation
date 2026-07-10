@@ -14,7 +14,7 @@ export function Welcome() {
 
       <div className="flex flex-col items-center justify-center gap-6 text-center">
         <ScrollReveal direction="down" className="font-cinzel text-xs tracking-[0.4em] text-gold-deep">
-          WITH JOYFUL HEARTS
+          {weddingConfig.welcomeSectionLabel}
         </ScrollReveal>
 
         <ScrollReveal delay={0.15} duration={1.1}>
@@ -29,9 +29,7 @@ export function Welcome() {
 
         <ScrollReveal delay={0.5} className="max-w-xl font-cormorant text-lg leading-relaxed text-ink/80 sm:text-xl">
           <p>
-            Together with our families, we joyfully invite you to witness the
-            beginning of our forever — an evening of love, laughter, and
-            timeless celebration.
+            {weddingConfig.welcomeParagraph}
           </p>
         </ScrollReveal>
       </div>
