@@ -129,7 +129,7 @@ export function Envelope({ onEntered }: { onEntered: () => void }) {
                     (z-20) physically covers it when closed. When the
                     envelope slides down, the card is naturally revealed
                     from behind — no opacity fade needed. */}
-                <div className="absolute inset-0 z-10 flex items-center justify-center overflow-visible">
+                <div className={`absolute inset-0 z-10 flex items-center justify-center ${isRisen ? 'overflow-visible' : 'overflow-hidden'}`}>
                   <motion.div
                     className="w-[86%] rounded-sm border border-gold/40 bg-ivory shadow-[0_10px_50px_rgba(0,0,0,0.45)]"
                     style={{ aspectRatio: "3 / 4" }}
