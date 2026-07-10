@@ -21,7 +21,7 @@ export function InvitationExperience() {
       <Envelope onEntered={() => setEntered(true)} />
       <SmoothScrollProvider>
         <main
-          className={entered ? "opacity-100" : "pointer-events-none opacity-0"}
+          className={entered ? "opacity-100" : "pointer-events-none opacity-0 invisible"}
           style={{ transition: "opacity 0.8s ease" }}
           aria-hidden={!entered}
         >
