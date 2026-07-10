@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { AmbientGlow } from "@/components/decorative/AmbientGlow";
 import { FloatingPetals } from "@/components/decorative/FloatingPetals";
 import { FloralCorner } from "@/components/decorative/FloralCorner";
@@ -20,9 +20,18 @@ export function Envelope({ onEntered }: { onEntered: () => void }) {
   const [phase, setPhase] = useState<Phase>("closed");
   const reducedMotion = useReducedMotion();
   const timeouts = useRef<number[]>([]);
+  // Ref so the effect below always calls the latest onEntered without
+  // re-running on every render (avoids stale-closure + dep-array issues).
+  const onEnteredRef = useRef(onEntered);
+  onEnteredRef.current = onEntered;
 
   useEffect(() => {
     document.body.style.overflow = phase === "entered" ? "" : "hidden";
+    // Call onEntered directly here instead of via AnimatePresence.onExitComplete,
+    // which does not fire reliably on mobile WebKit and leaves the site hidden.
+    if (phase === "entered") {
+      onEnteredRef.current();
+    }
     return () => {
       document.body.style.overflow = "";
     };
@@ -60,15 +69,13 @@ export function Envelope({ onEntered }: { onEntered: () => void }) {
   const isOpen = phase !== "closed" && phase !== "entered";
   const isRisen = phase === "rise" || phase === "hold" || phase === "zoom";
 
+  // By the time phase reaches "entered" the overlay is already at opacity 0
+  // (faded out during "zoom"), so removing it from the DOM is seamless.
+  if (phase === "entered") return null;
+
   return (
-    <AnimatePresence
-      onExitComplete={() => {
-        onEntered();
-      }}
-    >
-      {phase !== "entered" && (
-        <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-b from-[#0e3d2f] via-[#123f30] to-[#0a2a20]"
+    <motion.div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-b from-[#0e3d2f] via-[#123f30] to-[#0a2a20]"
           initial={{ opacity: 1 }}
           animate={
             phase === "zoom"
@@ -247,7 +254,5 @@ export function Envelope({ onEntered }: { onEntered: () => void }) {
             </motion.button>
           </div>
         </motion.div>
-      )}
-    </AnimatePresence>
   );
 }
