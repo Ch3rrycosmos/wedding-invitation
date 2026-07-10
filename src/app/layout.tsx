@@ -8,6 +8,7 @@ import {
   DM_Serif_Display,
 } from "next/font/google";
 import "./globals.css";
+import { weddingConfig } from "@/lib/weddingConfig";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
@@ -48,14 +49,15 @@ const dmSerif = DM_Serif_Display({
   style: ["normal", "italic"],
 });
 
+const title = `${weddingConfig.bride} & ${weddingConfig.groom} — With Love, We Invite You`;
+const description = `Join us as we begin our forever. An invitation to the wedding of ${weddingConfig.bride} & ${weddingConfig.groom}, ${weddingConfig.weddingDateDisplay}.`;
+
 export const metadata: Metadata = {
-  title: "Aanya & Arjun — With Love, We Invite You",
-  description:
-    "Join us as we begin our forever. An invitation to the wedding of Aanya & Arjun, 12th December 2026.",
+  title,
+  description,
   openGraph: {
-    title: "Aanya & Arjun — With Love, We Invite You",
-    description:
-      "Join us as we begin our forever. An invitation to the wedding of Aanya & Arjun, 12th December 2026.",
+    title,
+    description,
     type: "website",
   },
 };

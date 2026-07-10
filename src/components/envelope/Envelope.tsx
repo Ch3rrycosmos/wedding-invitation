@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { AmbientGlow } from "@/components/decorative/AmbientGlow";
 import { FloatingPetals } from "@/components/decorative/FloatingPetals";
@@ -11,9 +11,17 @@ import { weddingConfig } from "@/lib/weddingConfig";
 
 type Phase = "closed" | "flap" | "card" | "zoom" | "entered";
 
+// Phase timings are driven by fixed timers (not animation-completion events),
+// since chaining state off onAnimationComplete across 3D-transformed elements
+// is unreliable on some mobile WebKit builds and can leave the envelope stuck.
+const FLAP_MS = 1000;
+const CARD_MS = 1100 + 550;
+const ZOOM_MS = 900;
+
 export function Envelope({ onEntered }: { onEntered: () => void }) {
   const [phase, setPhase] = useState<Phase>("closed");
   const reducedMotion = useReducedMotion();
+  const timeouts = useRef<number[]>([]);
 
   useEffect(() => {
     document.body.style.overflow = phase === "entered" ? "" : "hidden";
@@ -22,14 +30,26 @@ export function Envelope({ onEntered }: { onEntered: () => void }) {
     };
   }, [phase]);
 
+  useEffect(() => {
+    const pending = timeouts.current;
+    return () => {
+      pending.forEach((id) => window.clearTimeout(id));
+    };
+  }, []);
+
   function handleOpen() {
     if (phase !== "closed") return;
     if (reducedMotion) {
       setPhase("zoom");
-      window.setTimeout(() => setPhase("entered"), 500);
+      timeouts.current.push(window.setTimeout(() => setPhase("entered"), 500));
       return;
     }
     setPhase("flap");
+    timeouts.current.push(
+      window.setTimeout(() => setPhase("card"), FLAP_MS),
+      window.setTimeout(() => setPhase("zoom"), FLAP_MS + CARD_MS),
+      window.setTimeout(() => setPhase("entered"), FLAP_MS + CARD_MS + ZOOM_MS),
+    );
   }
 
   return (
@@ -48,9 +68,6 @@ export function Envelope({ onEntered }: { onEntered: () => void }) {
               : { opacity: 1, scale: 1 }
           }
           transition={{ duration: 0.9, ease: [0.65, 0, 0.35, 1] }}
-          onAnimationComplete={() => {
-            if (phase === "zoom") setPhase("entered");
-          }}
         >
           <AmbientGlow />
           <FloatingPetals count={16} />
@@ -97,11 +114,6 @@ export function Envelope({ onEntered }: { onEntered: () => void }) {
                         : { y: 20, opacity: 0, scale: 0.92 }
                   }
                   transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-                  onAnimationComplete={() => {
-                    if (phase === "card") {
-                      window.setTimeout(() => setPhase("zoom"), 550);
-                    }
-                  }}
                 >
                   <div className="flex h-full flex-col items-center justify-center gap-3 p-6 text-center">
                     <span className="font-cinzel text-[10px] tracking-[0.35em] text-gold-deep">
@@ -149,9 +161,6 @@ export function Envelope({ onEntered }: { onEntered: () => void }) {
                         : 0,
                   }}
                   transition={{ duration: 1, ease: [0.65, 0, 0.35, 1] }}
-                  onAnimationComplete={() => {
-                    if (phase === "flap") setPhase("card");
-                  }}
                 >
                   <div className="absolute inset-0 paper-texture" />
                 </motion.div>

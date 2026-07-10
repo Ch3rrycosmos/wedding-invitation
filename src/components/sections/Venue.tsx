@@ -26,15 +26,21 @@ export function Venue() {
       <div className="mt-14 grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
         <ScrollReveal direction="right">
           <div className="overflow-hidden rounded-lg border border-gold/30 shadow-xl">
-            <iframe
-              title="Venue location map"
-              src={weddingConfig.venue.mapsEmbedSrc}
-              width="100%"
-              height="360"
-              loading="lazy"
-              style={{ border: 0, filter: "sepia(15%) saturate(85%)" }}
-              referrerPolicy="no-referrer-when-downgrade"
-            />
+            {weddingConfig.venue.mapsEmbedSrc ? (
+              <iframe
+                title="Venue location map"
+                src={weddingConfig.venue.mapsEmbedSrc}
+                width="100%"
+                height="360"
+                loading="lazy"
+                style={{ border: 0, filter: "sepia(15%) saturate(85%)" }}
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            ) : (
+              <div className="flex h-[360px] items-center justify-center bg-cream/50 font-cormorant text-ink/40">
+                Map coming soon
+              </div>
+            )}
           </div>
         </ScrollReveal>
 

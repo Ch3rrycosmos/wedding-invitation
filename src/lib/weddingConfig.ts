@@ -1,66 +1,50 @@
 // Central place to edit all invitation content.
+//
+// Names, date/time, and venue come from env vars (see .env.example) so the
+// real details never sit in tracked source — only generic copy is hardcoded
+// here. Set real values in .env.local (gitignored).
+//
+// Each var must be referenced as a literal (process.env.NEXT_PUBLIC_FOO) —
+// Turbopack/Webpack inlines these at build time and cannot follow dynamic
+// bracket access (process.env[name]).
+
+const bride = process.env.NEXT_PUBLIC_BRIDE_NAME ?? "Bride";
+const groom = process.env.NEXT_PUBLIC_GROOM_NAME ?? "Groom";
 
 export const weddingConfig = {
-  bride: "Anagha",
-  groom: "Anoop",
-  coupleMonogram: "A & A",
+  bride,
+  groom,
+  coupleMonogram: `${bride.charAt(0)} & ${groom.charAt(0)}`,
 
-  weddingDateISO: "2026-08-09T11:00:00", // used for countdown — keep in local venue time
-  weddingDateDisplay: "9th August 2026",
-  weddingDayDisplay: "Sunday",
-  weddingTimeDisplay: "11:00 AM – 12:00 PM (Muhoortham)",
+  // used for countdown — keep in local venue time
+  weddingDateISO: process.env.NEXT_PUBLIC_WEDDING_DATE_ISO ?? "2026-01-01T11:00:00",
+  weddingDateDisplay: process.env.NEXT_PUBLIC_WEDDING_DATE_DISPLAY ?? "1st January 2026",
+  weddingDayDisplay: process.env.NEXT_PUBLIC_WEDDING_DAY_DISPLAY ?? "Sunday",
+  weddingTimeDisplay: process.env.NEXT_PUBLIC_WEDDING_TIME_DISPLAY ?? "11:00 AM",
 
   welcomeQuote: "Two souls, one heart, endless journey.",
 
   invitationLine: "You are lovingly invited...",
 
-  story: [
-    {
-      year: "2019",
-      title: "Where It Began",
-      description:
-        "A chance meeting at a mutual friend's gathering turned into hours of conversation neither of us wanted to end.",
-    },
-    {
-      year: "2021",
-      title: "Becoming Us",
-      description:
-        "What started as friendship quietly became something neither of us could deny — and we finally said so.",
-    },
-    {
-      year: "2024",
-      title: "The Proposal",
-      description:
-        "Under a sky full of stars, a question was asked — and answered before it was even finished.",
-    },
-    {
-      year: "2026",
-      title: "The Wedding",
-      description:
-        "Surrounded by everyone we love, we begin the forever we've been dreaming of.",
-    },
-  ],
-
   details: [
     {
-      label: "Muhoortham",
-      date: "9th August 2026",
-      time: "11:00 AM – 12:00 PM",
-      venue: "Nakshathra Auditorium",
-      address: "Kanhangad",
+      label: process.env.NEXT_PUBLIC_EVENT_LABEL ?? "Ceremony",
+      date: process.env.NEXT_PUBLIC_WEDDING_DATE_DISPLAY ?? "1st January 2026",
+      time: process.env.NEXT_PUBLIC_WEDDING_TIME_DISPLAY ?? "11:00 AM",
+      venue: process.env.NEXT_PUBLIC_VENUE_NAME ?? "Venue Name",
+      address: process.env.NEXT_PUBLIC_VENUE_ADDRESS ?? "City, State",
     },
   ],
 
   venue: {
-    name: "Nakshathra Auditorium",
-    address: "Kanhangad, Kerala",
-    mapsEmbedSrc:
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3908.6!2d75.0866!3d12.3221!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDE5JzE5LjYiTiA3NcKwMDUnMTEuOCJF!5e0!3m2!1sen!2sin!4v1700000000000",
-    mapsDirectionsUrl: "https://maps.google.com/?q=Nakshathra+Auditorium+Kanhangad",
+    name: process.env.NEXT_PUBLIC_VENUE_NAME ?? "Venue Name",
+    address: process.env.NEXT_PUBLIC_VENUE_ADDRESS ?? "City, State",
+    mapsEmbedSrc: process.env.NEXT_PUBLIC_VENUE_MAPS_EMBED_SRC ?? "",
+    mapsDirectionsUrl: process.env.NEXT_PUBLIC_VENUE_MAPS_DIRECTIONS_URL ?? "https://maps.google.com",
   },
 
   gallery: [
-    { caption: "Anagha & Anoop", image: "/gallery/couple-01.jpg" },
+    { caption: `${bride} & ${groom}`, image: "/gallery/couple-01.jpg" },
     { caption: "Together With Their Families", image: "/gallery/invitation-card.png" },
   ],
 
@@ -68,8 +52,8 @@ export const weddingConfig = {
     title: "With Love & Gratitude",
     message:
       "Your presence is the greatest gift we could ask for. We can't wait to celebrate this new beginning surrounded by the people who mean the most to us.",
-    signature: "Anagha & Anoop",
+    signature: `${bride} & ${groom}`,
   },
-} as const;
+};
 
 export type WeddingConfig = typeof weddingConfig;

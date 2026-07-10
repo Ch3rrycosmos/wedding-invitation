@@ -6,7 +6,6 @@ import { MusicToggle } from "@/components/MusicToggle";
 import { SmoothScrollProvider } from "@/components/SmoothScrollProvider";
 import { Welcome } from "@/components/sections/Welcome";
 import { CoupleNames } from "@/components/sections/CoupleNames";
-import { StoryTimeline } from "@/components/sections/StoryTimeline";
 import { WeddingDetails } from "@/components/sections/WeddingDetails";
 import { Countdown } from "@/components/sections/Countdown";
 import { Gallery } from "@/components/sections/Gallery";
@@ -28,7 +27,6 @@ export function InvitationExperience() {
         >
           <Welcome />
           <CoupleNames />
-          <StoryTimeline />
           <WeddingDetails />
           <Countdown />
           <Gallery />
