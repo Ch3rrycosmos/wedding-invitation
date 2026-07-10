@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Volume2, VolumeX } from "lucide-react";
+import { weddingConfig } from "@/lib/weddingConfig";
 
 export function MusicToggle() {
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -16,7 +17,7 @@ export function MusicToggle() {
       audio.pause();
       setPlaying(false);
     } else {
-      audio.volume = 0.4;
+      audio.volume = weddingConfig.musicVolume;
       audio.play().catch(() => {});
       setPlaying(true);
     }
@@ -24,7 +25,7 @@ export function MusicToggle() {
 
   return (
     <>
-      <audio ref={audioRef} src="/song.mp3" loop preload="none" />
+      <audio ref={audioRef} src={weddingConfig.musicFile} loop preload="none" />
       <motion.button
         type="button"
         onClick={toggle}

@@ -11,11 +11,11 @@ export function Venue() {
     <SectionWrapper id="venue" tone="cream">
       <div className="text-center">
         <ScrollReveal className="font-cinzel text-xs tracking-[0.4em] text-gold-deep">
-          FIND US
+          {weddingConfig.venueSectionLabel}
         </ScrollReveal>
         <ScrollReveal delay={0.15}>
           <h2 className="mt-3 font-playfair text-4xl text-emerald sm:text-5xl">
-            The Venue
+            {weddingConfig.venueSectionTitle}
           </h2>
         </ScrollReveal>
         <ScrollReveal delay={0.3}>
@@ -52,9 +52,7 @@ export function Venue() {
             {weddingConfig.venue.address}
           </p>
           <p className="font-cormorant text-lg leading-relaxed text-ink/75">
-            Set among manicured emerald gardens and candlelit pathways, our
-            venue offers an intimate, elegant backdrop for celebrating the
-            beginning of our forever.
+            {weddingConfig.venue.description}
           </p>
           <a
             href={weddingConfig.venue.mapsDirectionsUrl}
@@ -63,7 +61,7 @@ export function Venue() {
             className="group mt-2 inline-flex items-center gap-2 rounded-full border border-gold bg-emerald px-6 py-3 font-cinzel text-xs tracking-[0.25em] text-cream transition-transform hover:scale-105"
           >
             <Navigation size={15} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-            GET DIRECTIONS
+            {weddingConfig.venueDirectionsText}
           </a>
         </ScrollReveal>
       </div>

@@ -58,11 +58,11 @@ export function Countdown() {
     <SectionWrapper id="countdown" tone="emerald">
       <div className="text-center">
         <ScrollReveal className="font-cinzel text-xs tracking-[0.4em] text-champagne">
-          COUNTING DOWN TO FOREVER
+          {weddingConfig.countdownSectionLabel}
         </ScrollReveal>
         <ScrollReveal delay={0.15}>
           <h2 className="mt-3 font-playfair text-4xl text-cream sm:text-5xl">
-            Until We Say &ldquo;I Do&rdquo;
+            {weddingConfig.countdownSectionTitle}
           </h2>
         </ScrollReveal>
         <ScrollReveal delay={0.3}>
@@ -71,10 +71,10 @@ export function Countdown() {
       </div>
 
       <ScrollReveal delay={0.4} className="mt-14 flex justify-center gap-4 sm:gap-8">
-        <Unit value={time?.days ?? 0} label="Days" />
-        <Unit value={time?.hours ?? 0} label="Hours" />
-        <Unit value={time?.minutes ?? 0} label="Minutes" />
-        <Unit value={time?.seconds ?? 0} label="Seconds" />
+        <Unit value={time?.days ?? 0} label={weddingConfig.countdownLabelDays} />
+        <Unit value={time?.hours ?? 0} label={weddingConfig.countdownLabelHours} />
+        <Unit value={time?.minutes ?? 0} label={weddingConfig.countdownLabelMinutes} />
+        <Unit value={time?.seconds ?? 0} label={weddingConfig.countdownLabelSeconds} />
       </ScrollReveal>
     </SectionWrapper>
   );
