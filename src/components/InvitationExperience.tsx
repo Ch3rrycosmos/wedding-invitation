@@ -25,7 +25,21 @@ export function InvitationExperience() {
     audio
       .play()
       .then(() => setPlaying(true))
-      .catch(() => {});
+      .catch((err) => {
+        // Some browsers reject the very first play() call even from a
+        // click handler (stricter autoplay heuristics, per-site sound
+        // settings, etc.). Retry on the next interaction anywhere on the
+        // page instead of requiring the user to find the toggle button.
+        console.warn("Autoplay blocked, will retry on next interaction:", err);
+        const retry = () => {
+          audio
+            .play()
+            .then(() => setPlaying(true))
+            .catch(() => {});
+        };
+        document.addEventListener("pointerdown", retry, { once: true });
+        document.addEventListener("keydown", retry, { once: true });
+      });
   }
 
   return (
