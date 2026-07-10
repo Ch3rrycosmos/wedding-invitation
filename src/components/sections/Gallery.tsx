@@ -31,12 +31,12 @@ export function Gallery() {
         </ScrollReveal>
       </div>
 
-      <div className="mx-auto mt-16 grid max-w-3xl auto-rows-[220px] grid-cols-1 gap-5 sm:grid-cols-2">
+      <div className="mx-auto mt-16 grid max-w-3xl grid-cols-1 gap-5 sm:auto-rows-[220px] sm:grid-cols-2">
         {items.map((item, i) => (
           <ScrollReveal
             key={item.caption}
             delay={i * 0.08}
-            className={spans[i % spans.length]}
+            className={`h-72 sm:h-auto ${spans[i % spans.length]}`}
           >
             <motion.button
               type="button"

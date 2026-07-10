@@ -61,12 +61,12 @@ export function Blessings() {
         </ScrollReveal>
 
         <ScrollReveal delay={0.55}>
-          <p className="mt-4 font-great-vibes text-4xl text-champagne sm:text-5xl">
+          <p className="mt-4 font-great-vibes text-3xl text-champagne sm:text-4xl md:text-5xl">
             {weddingConfig.blessing.signature}
           </p>
         </ScrollReveal>
 
-        <ScrollReveal delay={0.7} className="mt-6 font-cormorant text-sm tracking-[0.3em] text-cream/50">
+        <ScrollReveal delay={0.7} className="mt-6 font-cormorant text-xs tracking-[0.1em] text-cream/50 sm:text-sm sm:tracking-[0.25em]">
           WITH LOVE, {weddingConfig.weddingDateDisplay.toUpperCase()}
         </ScrollReveal>
       </motion.div>
