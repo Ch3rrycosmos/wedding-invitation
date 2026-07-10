@@ -116,7 +116,13 @@ export const weddingConfig = {
   },
 
   // ---- Music ----
-  musicFile: process.env.NEXT_PUBLIC_MUSIC_FILE ?? "/song.mp3",
+  // NEXT_PUBLIC_MUSIC_FILE overrides everything if set.
+  // Otherwise NEXT_PUBLIC_SELECTED_SONG (1-10) resolves to /songs/song{n}.mp3.
+  get musicFile() {
+    if (process.env.NEXT_PUBLIC_MUSIC_FILE) return process.env.NEXT_PUBLIC_MUSIC_FILE;
+    const n = process.env.NEXT_PUBLIC_SELECTED_SONG ?? "1";
+    return `/songs/song${n}.mp3`;
+  },
   musicVolume: Number(process.env.NEXT_PUBLIC_MUSIC_VOLUME || "0.4"),
 
   // ---- SEO ----

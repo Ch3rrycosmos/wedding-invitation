@@ -17,7 +17,80 @@ jobs:
           cache: npm
 
       - run: npm ci
-      - run: npm run build
+
+      - name: Build
+        run: npm run build
+        env:
+          # ---- Couple ----
+          NEXT_PUBLIC_BRIDE_NAME: ${{ secrets.NEXT_PUBLIC_BRIDE_NAME }}
+          NEXT_PUBLIC_GROOM_NAME: ${{ secrets.NEXT_PUBLIC_GROOM_NAME }}
+          NEXT_PUBLIC_COUPLE_MONOGRAM: ${{ secrets.NEXT_PUBLIC_COUPLE_MONOGRAM }}
+
+          # ---- Date & Time ----
+          NEXT_PUBLIC_WEDDING_DATE_ISO: ${{ secrets.NEXT_PUBLIC_WEDDING_DATE_ISO }}
+          NEXT_PUBLIC_WEDDING_DATE_DISPLAY: ${{ secrets.NEXT_PUBLIC_WEDDING_DATE_DISPLAY }}
+          NEXT_PUBLIC_WEDDING_DAY_DISPLAY: ${{ secrets.NEXT_PUBLIC_WEDDING_DAY_DISPLAY }}
+          NEXT_PUBLIC_WEDDING_TIME_DISPLAY: ${{ secrets.NEXT_PUBLIC_WEDDING_TIME_DISPLAY }}
+
+          # ---- Event ----
+          NEXT_PUBLIC_EVENT_LABEL: ${{ secrets.NEXT_PUBLIC_EVENT_LABEL }}
+
+          # ---- Venue ----
+          NEXT_PUBLIC_VENUE_NAME: ${{ secrets.NEXT_PUBLIC_VENUE_NAME }}
+          NEXT_PUBLIC_VENUE_ADDRESS: ${{ secrets.NEXT_PUBLIC_VENUE_ADDRESS }}
+          NEXT_PUBLIC_VENUE_MAPS_EMBED_SRC: ${{ secrets.NEXT_PUBLIC_VENUE_MAPS_EMBED_SRC }}
+          NEXT_PUBLIC_VENUE_MAPS_DIRECTIONS_URL: ${{ secrets.NEXT_PUBLIC_VENUE_MAPS_DIRECTIONS_URL }}
+          NEXT_PUBLIC_VENUE_DESCRIPTION: ${{ secrets.NEXT_PUBLIC_VENUE_DESCRIPTION }}
+
+          # ---- Envelope / Card ----
+          NEXT_PUBLIC_INVITATION_LINE: ${{ secrets.NEXT_PUBLIC_INVITATION_LINE }}
+          NEXT_PUBLIC_CARD_LABEL: ${{ secrets.NEXT_PUBLIC_CARD_LABEL }}
+          NEXT_PUBLIC_TAP_TO_OPEN_TEXT: ${{ secrets.NEXT_PUBLIC_TAP_TO_OPEN_TEXT }}
+
+          # ---- Welcome ----
+          NEXT_PUBLIC_WELCOME_SECTION_LABEL: ${{ secrets.NEXT_PUBLIC_WELCOME_SECTION_LABEL }}
+          NEXT_PUBLIC_WELCOME_QUOTE: ${{ secrets.NEXT_PUBLIC_WELCOME_QUOTE }}
+          NEXT_PUBLIC_WELCOME_PARAGRAPH: ${{ secrets.NEXT_PUBLIC_WELCOME_PARAGRAPH }}
+
+          # ---- Details ----
+          NEXT_PUBLIC_DETAILS_SECTION_LABEL: ${{ secrets.NEXT_PUBLIC_DETAILS_SECTION_LABEL }}
+          NEXT_PUBLIC_DETAILS_SECTION_TITLE: ${{ secrets.NEXT_PUBLIC_DETAILS_SECTION_TITLE }}
+          NEXT_PUBLIC_DETAILS_DATE_LABEL: ${{ secrets.NEXT_PUBLIC_DETAILS_DATE_LABEL }}
+          NEXT_PUBLIC_DETAILS_VENUE_LABEL: ${{ secrets.NEXT_PUBLIC_DETAILS_VENUE_LABEL }}
+
+          # ---- Countdown ----
+          NEXT_PUBLIC_COUNTDOWN_SECTION_LABEL: ${{ secrets.NEXT_PUBLIC_COUNTDOWN_SECTION_LABEL }}
+          NEXT_PUBLIC_COUNTDOWN_SECTION_TITLE: ${{ secrets.NEXT_PUBLIC_COUNTDOWN_SECTION_TITLE }}
+          NEXT_PUBLIC_COUNTDOWN_LABEL_DAYS: ${{ secrets.NEXT_PUBLIC_COUNTDOWN_LABEL_DAYS }}
+          NEXT_PUBLIC_COUNTDOWN_LABEL_HOURS: ${{ secrets.NEXT_PUBLIC_COUNTDOWN_LABEL_HOURS }}
+          NEXT_PUBLIC_COUNTDOWN_LABEL_MINUTES: ${{ secrets.NEXT_PUBLIC_COUNTDOWN_LABEL_MINUTES }}
+          NEXT_PUBLIC_COUNTDOWN_LABEL_SECONDS: ${{ secrets.NEXT_PUBLIC_COUNTDOWN_LABEL_SECONDS }}
+
+          # ---- Gallery ----
+          NEXT_PUBLIC_GALLERY_SECTION_LABEL: ${{ secrets.NEXT_PUBLIC_GALLERY_SECTION_LABEL }}
+          NEXT_PUBLIC_GALLERY_SECTION_TITLE: ${{ secrets.NEXT_PUBLIC_GALLERY_SECTION_TITLE }}
+          NEXT_PUBLIC_GALLERY_CAPTIONS: ${{ secrets.NEXT_PUBLIC_GALLERY_CAPTIONS }}
+          NEXT_PUBLIC_GALLERY_IMAGES: ${{ secrets.NEXT_PUBLIC_GALLERY_IMAGES }}
+
+          # ---- Venue Section ----
+          NEXT_PUBLIC_VENUE_SECTION_LABEL: ${{ secrets.NEXT_PUBLIC_VENUE_SECTION_LABEL }}
+          NEXT_PUBLIC_VENUE_SECTION_TITLE: ${{ secrets.NEXT_PUBLIC_VENUE_SECTION_TITLE }}
+          NEXT_PUBLIC_VENUE_DIRECTIONS_TEXT: ${{ secrets.NEXT_PUBLIC_VENUE_DIRECTIONS_TEXT }}
+
+          # ---- Blessings ----
+          NEXT_PUBLIC_BLESSING_TITLE: ${{ secrets.NEXT_PUBLIC_BLESSING_TITLE }}
+          NEXT_PUBLIC_BLESSING_MESSAGE: ${{ secrets.NEXT_PUBLIC_BLESSING_MESSAGE }}
+
+          # ---- Music ----
+          # Set to 1-10 → resolves to /songs/song{n}.mp3 at build time
+          NEXT_PUBLIC_SELECTED_SONG: ${{ secrets.NEXT_PUBLIC_SELECTED_SONG }}
+          NEXT_PUBLIC_MUSIC_VOLUME: ${{ secrets.NEXT_PUBLIC_MUSIC_VOLUME }}
+          # Advanced: hard-code a path instead of using SELECTED_SONG
+          NEXT_PUBLIC_MUSIC_FILE: ${{ secrets.NEXT_PUBLIC_MUSIC_FILE }}
+
+          # ---- SEO ----
+          NEXT_PUBLIC_SITE_TITLE: ${{ secrets.NEXT_PUBLIC_SITE_TITLE }}
+          NEXT_PUBLIC_SITE_DESCRIPTION: ${{ secrets.NEXT_PUBLIC_SITE_DESCRIPTION }}
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:

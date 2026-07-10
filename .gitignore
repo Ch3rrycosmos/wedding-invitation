@@ -42,6 +42,10 @@ yarn-error.log*
 /public/gallery/*
 !/public/gallery/.gitkeep
 
+# song files — stored locally and uploaded to the server; not tracked in git
+/public/songs/*
+!/public/songs/.gitkeep
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
