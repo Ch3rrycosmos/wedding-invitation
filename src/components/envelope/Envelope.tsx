@@ -129,7 +129,18 @@ export function Envelope({ onEntered }: { onEntered: () => void }) {
                     (z-20) physically covers it when closed. When the
                     envelope slides down, the card is naturally revealed
                     from behind — no opacity fade needed. */}
-                <div className={`absolute inset-0 z-10 flex items-center justify-center ${isRisen ? 'overflow-visible' : 'overflow-hidden'}`}>
+                <motion.div
+                  className="absolute inset-0 z-10 flex items-center justify-center"
+                  animate={
+                    isRisen
+                      ? { clipPath: "polygon(0% -50%, 100% -50%, 100% 150%, 0% 150%)" }
+                      : { clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)" }
+                  }
+                  transition={{
+                    duration: 1,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                >
                   <motion.div
                     className="w-[86%] rounded-sm border border-gold/40 bg-ivory shadow-[0_10px_50px_rgba(0,0,0,0.45)]"
                     style={{ aspectRatio: "3 / 4" }}
@@ -157,7 +168,7 @@ export function Envelope({ onEntered }: { onEntered: () => void }) {
                       </span>
                     </div>
                   </motion.div>
-                </div>
+                </motion.div>
 
                 {/* Layer 3 — Decorative bottom pocket strip */}
                 <div
