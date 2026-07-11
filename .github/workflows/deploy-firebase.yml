@@ -56,5 +56,5 @@ jobs:
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          projectId: anaghawedsanoop
+          projectId: ${{ vars.PROJECTID }}
           channelId: live
