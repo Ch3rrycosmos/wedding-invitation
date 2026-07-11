@@ -16,13 +16,13 @@ export function CoupleNames() {
 
         <div className="flex flex-col items-center gap-2">
           <h1 className="font-playfair text-4xl font-semibold tracking-wide text-emerald sm:text-6xl md:text-7xl lg:text-8xl">
-            <LetterReveal text={weddingConfig.bride} />
+            <LetterReveal text={weddingConfig.groom} />
           </h1>
           <ScrollReveal delay={0.5}>
             <span className="font-great-vibes text-3xl text-gold sm:text-4xl md:text-5xl">&amp;</span>
           </ScrollReveal>
           <h1 className="font-playfair text-4xl font-semibold tracking-wide text-emerald sm:text-6xl md:text-7xl lg:text-8xl">
-            <LetterReveal text={weddingConfig.groom} delay={0.7} />
+            <LetterReveal text={weddingConfig.bride} delay={0.7} />
           </h1>
         </div>
 

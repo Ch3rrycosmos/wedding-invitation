@@ -174,7 +174,7 @@ export function Envelope({
                         {weddingConfig.cardLabel}
                       </span>
                       <span className="font-great-vibes text-3xl text-emerald sm:text-4xl">
-                        {weddingConfig.bride} &amp; {weddingConfig.groom}
+                        {weddingConfig.groom} &amp; {weddingConfig.bride}
                       </span>
                       <span className="h-px w-10 bg-gold" />
                       <span className="font-cormorant text-xs tracking-[0.15em] text-ink/70">

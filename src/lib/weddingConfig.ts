@@ -5,7 +5,7 @@ export const weddingConfig = {
   get coupleMonogram() {
     return (
       process.env.NEXT_PUBLIC_COUPLE_MONOGRAM ||
-      `${this.bride.charAt(0)} & ${this.groom.charAt(0)}`
+      `${this.groom.charAt(0)} & ${this.bride.charAt(0)}`
     );
   },
 
@@ -111,7 +111,7 @@ export const weddingConfig = {
       process.env.NEXT_PUBLIC_BLESSING_MESSAGE ??
       "Your presence is the greatest gift we could ask for. We can't wait to celebrate this new beginning surrounded by the people who mean the most to us.",
     get signature() {
-      return `${process.env.NEXT_PUBLIC_BRIDE_NAME ?? "Bride"} & ${process.env.NEXT_PUBLIC_GROOM_NAME ?? "Groom"}`;
+      return `${process.env.NEXT_PUBLIC_GROOM_NAME ?? "Groom"} & ${process.env.NEXT_PUBLIC_BRIDE_NAME ?? "Bride"}`;
     },
   },
 
@@ -129,13 +129,13 @@ export const weddingConfig = {
   get siteTitle() {
     return (
       process.env.NEXT_PUBLIC_SITE_TITLE ||
-      `${this.bride} & ${this.groom} — With Love, We Invite You`
+      `${this.groom} & ${this.bride} — With Love, We Invite You`
     );
   },
   get siteDescription() {
     return (
       process.env.NEXT_PUBLIC_SITE_DESCRIPTION ||
-      `Join us as we begin our forever. An invitation to the wedding of ${this.bride} & ${this.groom}, ${this.weddingDateDisplay}.`
+      `Join us as we begin our forever. An invitation to the wedding of ${this.groom} & ${this.bride}, ${this.weddingDateDisplay}.`
     );
   },
 };
