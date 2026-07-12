@@ -21,6 +21,7 @@
   --font-great-vibes: "Great Vibes", cursive;
   --font-pinyon: "Pinyon Script", cursive;
   --font-dm-serif: "DM Serif Display", serif;
+  color-scheme: light;  
 }
 
 @theme inline {
